@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.0)
+
+find_package(OpenCV-SWIG REQUIRED)
+find_package(SWIG REQUIRED COMPONENTS python)
+find_package(Boost REQUIRED)
+find_package(OpenCV REQUIRED core)
+FIND_PACKAGE(PythonLibs REQUIRED)
+
+include(UseSWIG)
+
+SET(_SWIG_FILES
+  image.i
+)
+
+INCLUDE_DIRECTORIES(
+  ${PYTHON_INCLUDE_DIRS}
+  ${OpenCV-SWIG_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/../include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../src
+)
+
+SET(CMAKE_SWIG_FLAGS "")
+SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES CPLUSPLUS ON)
+SWIG_ADD_LIBRARY(example LANGUAGE python SOURCES example.i)
+SWIG_LINK_LIBRARIES(example ${PYTHON_LIBRARIES} image ${OpenCV_LIBRARIES})
+INSTALL(TARGETS example DESTINATION ${CMAKE_INSTALL_PREFIX}/swig/example)
+INSTALL(TARGETS _example DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/site-packages/example)
+INSTALL(FILES ${CMAKE_BINARY_DIR}/swig/example.py DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/site-packages/example)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/__init__.py.in ${CMAKE_INSTALL_PREFIX}/lib/site-packages/example/__init__.py COPYONLY)
