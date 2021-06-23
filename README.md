@@ -1,30 +1,20 @@
 # swig-sample
 
-.
-|-- CMakeLists.txt
-|-- img
-|   `-- cea.jpg
-|-- include
-|   `-- image.hpp
-|-- src
-|   |-- image.cpp
-|   `-- test.cpp
-|-- swig
-|   |-- CMakeLists.txt
-|   |-- __init__.py.in
-|   |-- example.i
-|   `-- image.i
-`-- test
-    `-- test.py
 
+* Compilation
+
+```bash
 mkdir build
 cd build
 cmake -S .. -B . -DOPENCV_VERSION=3.4.14 (dans mon cas)
 make
 make install
+```
+* Validation
 
-Python 3
+```python
 
+python
 >>> import example
 >>> from example import Image
 >>> img=Image()
@@ -44,7 +34,9 @@ Object address 0x28f5500
        - columns: 500
        - rows   : 300
 
+```
 
+```c
 C++
 ./example
 Loading image from file: cea.jpg
@@ -57,3 +49,4 @@ Image name  : cea.jpg
  Object address 0x5569681e2d60
    - columns: 500
    - rows   : 300
+```
